@@ -1,0 +1,112 @@
+Started by user Zehra CICEK
+
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins
+ in C:\ProgramData\Jenkins\.jenkins\workspace\Vize1
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Repo Klonla)
+[Pipeline] git
+The recommended git tool is: NONE
+No credentials specified
+Cloning the remote Git repository
+Cloning repository https://github.com/Zehracicek/YMGVize.git
+ > git.exe init C:\ProgramData\Jenkins\.jenkins\workspace\Vize1 # timeout=10
+Fetching upstream changes from https://github.com/Zehracicek/YMGVize.git
+ > git.exe --version # timeout=10
+ > git --version # 'git version 2.46.1.windows.1'
+ > git.exe fetch --tags --force --progress -- https://github.com/Zehracicek/YMGVize.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git.exe config remote.origin.url https://github.com/Zehracicek/YMGVize.git # timeout=10
+ > git.exe config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+Avoid second fetch
+ > git.exe rev-parse "refs/remotes/origin/main^{commit}" # timeout=10
+Checking out Revision 94acd19ed0b06ed1b9efccc78b86d055cb069ac5 (refs/remotes/origin/main)
+ > git.exe config core.sparsecheckout # timeout=10
+ > git.exe checkout -f 94acd19ed0b06ed1b9efccc78b86d055cb069ac5 # timeout=10
+ > git.exe branch -a -v --no-abbrev # timeout=10
+ > git.exe checkout -b main 94acd19ed0b06ed1b9efccc78b86d055cb069ac5 # timeout=10
+Commit message: "Update Dockerfile"
+First time build. Skipping changelog.
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Docker Image Olustur)
+[Pipeline] echo
+Docker Image Olusturuluyor
+[Pipeline] bat
+
+C:\ProgramData\Jenkins\.jenkins\workspace\Vize1>docker build -t ymg-vize-test . 
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 106B 0.0s done
+#1 DONE 0.1s
+
+#2 [internal] load metadata for docker.io/library/nginx:latest
+#2 DONE 2.6s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/2] FROM docker.io/library/nginx:latest@sha256:09369da6b10306312cd908661320086bf87fbae1b6b0c49a1f50ba531fef2eab
+#4 resolve docker.io/library/nginx:latest@sha256:09369da6b10306312cd908661320086bf87fbae1b6b0c49a1f50ba531fef2eab 0.0s done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 47.22kB 0.2s done
+#5 DONE 0.3s
+
+#4 [1/2] FROM docker.io/library/nginx:latest@sha256:09369da6b10306312cd908661320086bf87fbae1b6b0c49a1f50ba531fef2eab
+#4 CACHED
+
+#6 [2/2] COPY . /usr/share/nginx/html/
+#6 DONE 0.1s
+
+#7 exporting to image
+#7 exporting layers 0.1s done
+#7 exporting manifest sha256:3a13a83b5e07af787406256aad9af29bcfb7a98137a2068110a711c571d46265 0.0s done
+#7 exporting config sha256:22fdbe6fcc2f96ec1d41aa3164ac0a3e5fd02b084b05afd880e2cf6b5b53e2c8
+#7 exporting config sha256:22fdbe6fcc2f96ec1d41aa3164ac0a3e5fd02b084b05afd880e2cf6b5b53e2c8 0.0s done
+#7 exporting attestation manifest sha256:24579e5b5d525f634423aded1250e2351ddf62fd9a40e8c962aac455b6146477 0.0s done
+#7 exporting manifest list sha256:65142fd5a828c0821319f033c5d12ab13aad2f1f4d7f4664d95e4b742fc0d7ca 0.0s done
+#7 naming to docker.io/library/ymg-vize-test:latest done
+#7 unpacking to docker.io/library/ymg-vize-test:latest 0.1s done
+#7 DONE 0.2s
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Eski Conteyneri Durdur)
+[Pipeline] echo
+Eski Conteyner Durduruluyor
+[Pipeline] bat
+
+C:\ProgramData\Jenkins\.jenkins\workspace\Vize1>docker rm -f nginx-test-conteyner   || exit 0 
+nginx-test-conteyner
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Yeni Conteyneri Olustur)
+[Pipeline] echo
+Yeni Conteyner Olusturuluyor
+[Pipeline] bat
+
+C:\ProgramData\Jenkins\.jenkins\workspace\Vize1>docker run -d --name nginx-test-conteyner -p 4444:80 ymg-vize-test 
+6d844521e420765b8d062354b895ff56eedecd2a6528a748e0c552ea955a00bf
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] echo
+Yayın basarili: http://localhost:4444
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
